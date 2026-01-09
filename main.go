@@ -8,7 +8,7 @@ import (
 func main() {
 	c := colly.NewCollector()
 
-	colly.AllowedDomains("https://books.toscrape.com/")
+	colly.AllowedDomains("https://books.toscrape.com/")	// scraping only this domain
 
 	c.OnHTML("a", func(e *colly.HTMLElement) {
 		link := e.Attr("href")
@@ -19,7 +19,7 @@ func main() {
 	c.OnHTML("*", func(e *colly.HTMLElement) {
 		fmt.Println(e)
 	})
-	
+
 	// error handler
 	c.OnError(func(r *colly.Response, err error) {
 		fmt.Println("failed to scarpe url:", r.Request.URL, "\nresponse:", r, "\nerror:", err)
