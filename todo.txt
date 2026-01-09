@@ -1,0 +1,15 @@
+The introduction: https://www.scrapingbee.com/blog/how-to-scrape-data-in-go-using-colly/
+
+For documentaion: https://go-colly.org/docs/
+
+Thier Github: https://github.com/gocolly/colly
+
+
+Potential things to scrape:
+
+Sports: Analyze player stats, team performance, and betting odds from sports websites.
+
+Finance: Monitor stock fluctuations, gather financial news, and track market trends for investment insights.
+
+E-commerce: Scrape product details, prices, reviews, and competitor strategies (e.g., Amazon, Walmart) 
+to build price alerts or market intelligence tools.
