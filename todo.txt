@@ -4,6 +4,8 @@ For documentaion: https://go-colly.org/docs/
 
 Thier Github: https://github.com/gocolly/colly
 
+Good Video: https://www.youtube.com/watch?v=bfVxq-oQA3c
+
 
 Potential things to scrape:
 
