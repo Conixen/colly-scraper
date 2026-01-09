@@ -1,5 +1,7 @@
 The introduction: https://www.scrapingbee.com/blog/how-to-scrape-data-in-go-using-colly/
 
+The scrape test site: https://books.toscrape.com/index.html
+
 For documentaion: https://go-colly.org/docs/
 
 Thier Github: https://github.com/gocolly/colly
