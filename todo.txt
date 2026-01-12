@@ -1,12 +1,18 @@
-The introduction: https://www.scrapingbee.com/blog/how-to-scrape-data-in-go-using-colly/
+Reference Material
+Introduction and walkthrough:
+https://www.scrapingbee.com/blog/how-to-scrape-data-in-go-using-colly/
 
-The scrape test site: https://books.toscrape.com/index.html
+Target site used for scraping practice:
+https://books.toscrape.com/index.html
 
-For documentaion: https://go-colly.org/docs/
+Official Colly documentation:
+https://go-colly.org/docs/
 
-Thier Github: https://github.com/gocolly/colly
+Colly source repository:
+https://github.com/gocolly/colly
 
-Good Video: https://www.youtube.com/watch?v=bfVxq-oQA3c
+Good Video: 
+https://www.youtube.com/watch?v=bfVxq-oQA3c
 
 
 Potential things to scrape:
