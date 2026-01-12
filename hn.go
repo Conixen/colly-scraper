@@ -14,7 +14,6 @@ import (
 
 func main() {
 
-	// Example book URL for testing - change to any book detail page
 	scrapeUrl := "https://books.toscrape.com/"
 
 	c := colly.NewCollector(colly.AllowedDomains("books.toscrape.com"))
