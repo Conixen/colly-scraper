@@ -95,16 +95,15 @@ func main() {
 	})
 	c.Visit(scrapeUrl)
 
-	// Visit all book listing pages - find links to individual books
+	// for each book link on the page
 	c.OnHTML("article.product_pod h3 a", func(e *colly.HTMLElement) {
 	 	bookURL := e.Attr("href")
 	 	e.Request.Visit(e.Request.AbsoluteURL(bookURL))
   	})
 
-	// Handle pagination - visit next pages
+	// for next page
 	c.OnHTML("li.next a", func(e *colly.HTMLElement) {
 	 	nextPage := e.Attr("href")
 	 	e.Request.Visit(e.Request.AbsoluteURL(nextPage))
 	})
-
 }
