@@ -1,1 +1,6 @@
-main2.go
+.gitignore
+football.go
+finance.go
+data
+fut_scraper.go
+finance_scraper.go
