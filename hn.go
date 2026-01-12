@@ -14,9 +14,10 @@ import (
 
 func main() {
 
-	scrapeUrl := "https://books.toscrape.com/index.html"
+	// Example book URL for testing - change to any book detail page
+	scrapeUrl := "https://books.toscrape.com/"
 
-	c := colly.NewCollector(colly.AllowedDomains("https://books.toscrape.com/index.html"))
+	c := colly.NewCollector(colly.AllowedDomains("books.toscrape.com"))
 
 	c.Limit(&colly.LimitRule{
 		DomainGlob:  "*",
@@ -96,15 +97,15 @@ func main() {
 	c.Visit(scrapeUrl)
 
 	// Visit all book listing pages - find links to individual books
-	// c.OnHTML("article.product_pod h3 a", func(e *colly.HTMLElement) {
-	// 	bookURL := e.Attr("href")
-	// 	e.Request.Visit(e.Request.AbsoluteURL(bookURL))
-	// })
+	c.OnHTML("article.product_pod h3 a", func(e *colly.HTMLElement) {
+	 	bookURL := e.Attr("href")
+	 	e.Request.Visit(e.Request.AbsoluteURL(bookURL))
+  	})
 
-	// // Handle pagination - visit next pages
-	// c.OnHTML("li.next a", func(e *colly.HTMLElement) {
-	// 	nextPage := e.Attr("href")
-	// 	e.Request.Visit(e.Request.AbsoluteURL(nextPage))
-	// })
+	// Handle pagination - visit next pages
+	c.OnHTML("li.next a", func(e *colly.HTMLElement) {
+	 	nextPage := e.Attr("href")
+	 	e.Request.Visit(e.Request.AbsoluteURL(nextPage))
+	})
 
 }
