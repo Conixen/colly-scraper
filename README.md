@@ -8,6 +8,7 @@ A minimal web scraping project built with **Colly**, focused on learning core sc
 
 - Target site used for scraping practice:  
   https://books.toscrape.com/index.html
+  https://webscraper.io/test-sites
 
 - Official Colly documentation:  
   https://go-colly.org/docs/

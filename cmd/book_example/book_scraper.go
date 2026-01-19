@@ -6,8 +6,8 @@ import (
 	"time"
 
 	"colly-scraper/internal/model"
-	"colly-scraper/internal/utils"
 	"colly-scraper/internal/storage"
+	"colly-scraper/internal/utils"
 
 	"github.com/gocolly/colly/v2"
 )
@@ -97,13 +97,13 @@ func main() {
 
 	// for each book link on the page
 	c.OnHTML("article.product_pod h3 a", func(e *colly.HTMLElement) {
-	 	bookURL := e.Attr("href")
-	 	e.Request.Visit(e.Request.AbsoluteURL(bookURL))
-  	})
+		bookURL := e.Attr("href")
+		e.Request.Visit(e.Request.AbsoluteURL(bookURL))
+	})
 
 	// for next page
 	c.OnHTML("li.next a", func(e *colly.HTMLElement) {
-	 	nextPage := e.Attr("href")
-	 	e.Request.Visit(e.Request.AbsoluteURL(nextPage))
+		nextPage := e.Attr("href")
+		e.Request.Visit(e.Request.AbsoluteURL(nextPage))
 	})
 }
