@@ -63,3 +63,41 @@ func hashURL(url string) string {
 	}
 	return hash
 }
+
+func LoadTablet(name string) (model.Tablet, error) {
+	filename := filepath.Join(storageDir, "tablet_"+hashURL(name)+".json")
+
+	data, err := os.ReadFile(filename)
+	if err != nil {
+		if os.IsNotExist(err) {
+			return model.Tablet{}, nil
+		}
+		return model.Tablet{}, fmt.Errorf("failed to read tablet file: %w", err)
+	}
+
+	var tablet model.Tablet
+	if err := json.Unmarshal(data, &tablet); err != nil {
+		return model.Tablet{}, fmt.Errorf("failed to unmarshal tablet: %w", err)
+	}
+
+	return tablet, nil
+}
+
+func SaveTablet(tablet model.Tablet) error {
+	if err := os.MkdirAll(storageDir, 0755); err != nil {
+		return fmt.Errorf("failed to create storage directory: %w", err)
+	}
+
+	filename := filepath.Join(storageDir, "tablet_"+hashURL(tablet.Name)+".json")
+
+	data, err := json.MarshalIndent(tablet, "", "  ")
+	if err != nil {
+		return fmt.Errorf("failed to marshal tablet: %w", err)
+	}
+
+	if err := os.WriteFile(filename, data, 0644); err != nil {
+		return fmt.Errorf("failed to write tablet file: %w", err)
+	}
+
+	return nil
+}
