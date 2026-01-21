@@ -5,6 +5,8 @@ import (
 	"time"
 
 	"colly-scraper/internal/model"
+	"colly-scraper/internal/storage"
+	"colly-scraper/internal/utils"
 
 	"github.com/gocolly/colly/v2"
 )
@@ -32,32 +34,50 @@ func main() {
 	})
 
 	c.OnHTML(".thumbnail", func(e *colly.HTMLElement) {
-		tablet := model.Tablet{}
+		newTablet := model.Tablet{}
 
-		tablet.Name = e.ChildText("a.title")
-		fmt.Printf("Tablet found: %s\n", tablet.Name)
+		newTablet.Name = utils.CleanScraped(e.ChildText("a.title"))
+		fmt.Printf("Tablet found: %s\n", newTablet.Name)
 
-		tablet.Price = e.ChildText("h4.price")
-		fmt.Printf("Tablet price: %s\n", tablet.Price)
+		newTablet.Price = utils.CleanScraped(e.ChildText("h4.price"))
+		fmt.Printf("Tablet price: %s\n", newTablet.Price)
 
-		tablet.Description = e.ChildText("p.description")
-		fmt.Printf("Tablet description: %s\n", tablet.Description)
+		newTablet.Description = utils.CleanScraped(e.ChildText("p.description"))
+		fmt.Printf("Tablet description: %s\n", newTablet.Description)
 
 		// Collect all colors
 		e.ForEach("div.swatches > button[data-color]", func(_ int, el *colly.HTMLElement) {
-			color := el.Attr("data-color")
-			tablet.Color = append(tablet.Color, color)
+			color := utils.CleanScraped(el.Attr("data-color"))
+			newTablet.Color = append(newTablet.Color, color)
 		})
-		fmt.Printf("Tablet colors: %v\n", tablet.Color)
+		fmt.Printf("Tablet colors: %v\n", newTablet.Color)
 
 		// Collect all storage options
 		e.ForEach("div.swatches > button[data-storage]", func(_ int, el *colly.HTMLElement) {
-			storage := el.Attr("data-storage")
-			tablet.HardDrive = append(tablet.HardDrive, storage)
+			storageOpt := utils.CleanScraped(el.Attr("data-storage"))
+			newTablet.HardDrive = append(newTablet.HardDrive, storageOpt)
 		})
-		fmt.Printf("Tablet storage options: %v\n", tablet.HardDrive)
+		fmt.Printf("Tablet storage options: %v\n", newTablet.HardDrive)
 
-		tablets = append(tablets, tablet)
+		// Load previous tablet data for change detection
+		oldTablet, err := storage.LoadTablet(newTablet.Name)
+		if err != nil {
+			fmt.Printf("Warning: failed to load old tablet data: %v\n", err)
+		}
+
+		if utils.HasTabletChanged(oldTablet, newTablet) {
+			fmt.Printf("Changes detected! Updating tablet: %s\n", newTablet.Name)
+
+			if err := storage.SaveTablet(newTablet); err != nil {
+				fmt.Printf("Error: failed to save tablet: %v\n", err)
+			} else {
+				fmt.Printf("Tablet saved successfully: %s\n", newTablet.Name)
+			}
+		} else {
+			fmt.Printf("No changes detected for: %s - skipping update\n", newTablet.Name)
+		}
+
+		tablets = append(tablets, newTablet)
 		fmt.Println("---")
 	})
 
